@@ -1,2 +1,3 @@
-export default class Storage{}
-
+export default class Storage{
+	
+}
