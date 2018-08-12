@@ -1,12 +1,12 @@
-import Storage from '../classes/storage'
+import Storage from '../classes/storage';
 
-let storage = new Storage('data,json')
+let storage = new Storage('data,json');
 
 export default {
-	get(){
+	get () {
 
 	},
-	set(){
-		
+	set () {
+
 	}
-}
+};

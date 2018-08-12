@@ -9,17 +9,20 @@
 // let Koa = require('koa');
 // let jsonBody = require('koa-json-body');
 
-// let router = require('./router');
-// let defaultErrorHandler = require('./default-error-handler');
-// .use(defaultErrorHandler)
+let Koa = require('koa');
+let jsonBody = require('koa-json-body');
 
-// module.exports = new Koa()
-// 	.use(jsonBody({ limit: '1mb', fallback: true, strict: true }))
-// 	.use(router.routes())
-// 	.use(router.allowedMethods())
-// 	.on('error', function (err, ctx) {
-// 		console.error(err, ctx);
-// 	});
+let router = require('./router');
+let defaultErrorHandler = require('./default-error-handler');
+
+module.exports = new Koa()
+	.use(defaultErrorHandler)
+	.use(jsonBody({ limit: '1mb', fallback: true, strict: true }))
+	.use(router.routes())
+	.use(router.allowedMethods())
+	.on('error', function (err, ctx) {
+		console.error(err, ctx);
+	});
 
 // let storage = new Storage('data.json')
 // storage.set('test', 1)
