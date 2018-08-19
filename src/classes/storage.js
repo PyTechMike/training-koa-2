@@ -1,18 +1,18 @@
 import fileSystem from '../services/fs.service';
 
-// export default
-class Storage {
-	constructor (filePass) {
+
+export default class Storage {
+	constructor (filePath) {
 		this.whenReady = Promise.resolve();
-		this.filePass = filePass || 0;
+		this.filePath = filePath || 0;
 	}
 	get (key) {
+		let filePath = this.filePath;
+
 		this.whenReady = this.whenReady
 		.then(function () {
 			return new Promise(function (resolve) {
-				let value = fileSystem.get(Storage.filePass, key);
-
-				// let value = 10; // test
+				let value = fileSystem.get(filePath, key);
 
 				resolve(value);
 			});
@@ -20,12 +20,12 @@ class Storage {
 		return this.whenReady;
 	}
 	set (key, value) {
+		let filePath = this.filePath;
+
 		this.whenReady = this.whenReady
 		.then(function () {
 			return new Promise(function (resolve) {
-				fileSystem.set(Storage.filePass, key, value);
-
-				// let value = 9; // test
+				fileSystem.set(filePath, key, value);
 
 				resolve(value);
 			});
@@ -33,12 +33,12 @@ class Storage {
 		return this.whenReady;
 	}
 	remove (key) {
+		let filePath = this.filePath;
+
 		this.whenReady = this.whenReady
 		.then(function () {
 			return new Promise(function (resolve) {
-				fileSystem.remove(Storage.filePass, key);
-
-				// let value = 8; // test
+				fileSystem.remove(filePath, key);
 
 				resolve();
 			});
@@ -48,17 +48,24 @@ class Storage {
 	}
 }
 
-let storage = new Storage('filePass');
+// let storage = new Storage('filePass');
+// storage.set('key666', '543').then(function (number) {
+// 	console.log(number);
+// 	return;
+// }).catch(function (err) {
+// 	console.error(err);
+// });
 
+// storage.get('key666').then(function (number) {
+// 	console.log(number);
+// 	return;
+// }).catch(function (err) {
+// 	console.error(err);
+// });
 
-console.log(storage.set('key666'));
-
-storage.get('key666').then(function (number) {
-	return console.log(number);
-}).cat;
-storage.set('key666', '543').then(function (number) {
-	return console.log(number);
-});
-storage.remove('key666', '543').then(function (number) {
-	return console.log(number);
-});
+// storage.remove('key666', '543').then(function (number) {
+// 	console.log(number);
+// 	return;
+// }).catch(function (err) {
+// 	console.error(err);
+// });

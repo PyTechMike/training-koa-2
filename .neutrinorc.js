@@ -1,6 +1,10 @@
 module.exports = {
 	use: [
-	  '@atomspace/eslint',
+	  ['@atomspace/eslint', {
+		  eslint: {
+			  envs: ['node'],
+		  }
+	  }],
 	  'neutrino-preset-koa'
 	]
 };

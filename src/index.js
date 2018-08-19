@@ -1,31 +1,49 @@
 // import Koa from 'koa';
 // import router from './router';
-// import Storage from './classes/storage';
 
-// export default new Koa()
-// 	.on('error', function (err, ctx) {
-// 		console.error(err, ctx);
-// 	});
-// let Koa = require('koa');
-// let jsonBody = require('koa-json-body');
+import Koa from 'koa';
 
-let Koa = require('koa');
-let jsonBody = require('koa-json-body');
+import Storage from './classes/storage';
 
-let router = require('./router');
-let defaultErrorHandler = require('./default-error-handler');
-
-module.exports = new Koa()
-	.use(defaultErrorHandler)
-	.use(jsonBody({ limit: '1mb', fallback: true, strict: true }))
-	.use(router.routes())
-	.use(router.allowedMethods())
+export default new Koa()
 	.on('error', function (err, ctx) {
 		console.error(err, ctx);
 	});
 
-// let storage = new Storage('data.json')
-// storage.set('test', 1)
-// storage.get('test').then(function(val){
-//   console.log(val)
-// })
+function wait (ms, callback) {
+	let startTime = new Date();
+
+	setTimeout(function () {
+		let endTime = Number(new Date()) - Number(startTime);
+
+		callback(endTime);
+	}, ms);
+}
+
+function delay (ms) {
+	return new Promise(function (resolve) {
+		wait(ms, resolve);
+	});
+}
+
+delay(100).then(function (time) {
+	console.log(time);
+	return time;
+}).catch(function (err) {
+	console.error(err);
+});
+
+// wait(100, function (time) {
+// 	console.log(time);
+// });
+
+
+let storage = new Storage('data.json');
+
+storage.set('test2', 1222);
+storage.get('test2').then(function (val) {
+	console.log(val);
+	return;
+}).catch(function (err) {
+	console.error(err);
+});

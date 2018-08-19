@@ -1,38 +1,36 @@
-import fr from 'fs';
+import fs from 'fs';
 
-const fs = require('fs');
-
-function checkFile (filePass) {
-	if (!fs.existsSync(filePass)) {
-		fs.appendFileSync(filePass, '{}');
+function checkFile (filePath) {
+	if (!fs.existsSync(filePath)) {
+		fs.appendFileSync(filePath, '{}');
 	}
 }
 
-function parsedData (filePass) {
-	return JSON.parse(fs.readFileSync(filePass, 'utf8'));
+
+function parsedData (filePath) {
+	return JSON.parse(fs.readFileSync(filePath, 'utf8'));
 }
 
-function writeData (filePass, data) {
-	fs.writeFileSync(filePass, JSON.stringify(data));
+function writeData (filePath, data) {
+	fs.writeFileSync(filePath, JSON.stringify(data));
 }
 
-function getData (filePass, key) {
-	if (key in parsedData(filePass)) {
-		return parsedData(filePass)[key];
+function getData (filePath, key) {
+	if (key in parsedData(filePath)) {
+		return parsedData(filePath)[key];
 	}
 	throw new Error(`${key} is not exist in this data.`);
-
 }
 
-function setData (filePass, key, value) {
-	let readyData = parsedData(filePass);
+function setData (filePath, key, value) {
+	let readyData = parsedData(filePath);
 
 	readyData[key] = value;
-	writeData(filePass, readyData);
+	writeData(filePath, readyData);
 }
 
-function removeData (filePass, key) {
-	let readyData = parsedData(filePass);
+function removeData (filePath, key) {
+	let readyData = parsedData(filePath);
 
 	if (key in readyData) {
 		delete readyData[key];
@@ -40,24 +38,24 @@ function removeData (filePass, key) {
 	else {
 		throw new Error(`${key} is not exist in this data.`);
 	}
-	writeData(filePass, readyData);
+	writeData(filePath, readyData);
 }
 
 let fileSystem;
 
 export default fileSystem = {
-	get (filePass, key) { // Promise version need
-		checkFile(filePass);
-		return getData(filePass, key);
+	get (filePath, key) { // Promise version need
+		checkFile(filePath);
+		return getData(filePath, key);
 	},
-	set (filePass, key, value) {
-		checkFile(filePass);
-		setData(filePass, key, value);
+	set (filePath, key, value) {
+		checkFile(filePath);
+		setData(filePath, key, value);
 		return value;
 	},
-	remove (filePass, key) {
-		checkFile(filePass);
-		removeData(filePass, key);
+	remove (filePath, key) {
+		checkFile(filePath);
+		removeData(filePath, key);
 		return true;
 	}
 };
