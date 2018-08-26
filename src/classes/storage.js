@@ -1,4 +1,4 @@
-import fileSystem from '../services/fs.service';
+import { readFile, writeFile } from '../services/fs.service';
 
 
 export default class Storage {
@@ -10,62 +10,64 @@ export default class Storage {
 		let filePath = this.filePath;
 
 		this.whenReady = this.whenReady
-		.then(function () {
-			return new Promise(function (resolve) {
-				let value = fileSystem.get(filePath, key);
-
-				resolve(value);
+			.then(function () {
+				return readFile(filePath);
+			})
+			.then(JSON.parse)
+			.then(function (data) {
+				if (key in data) {
+					return data[key];
+				}
+				throw new Error(`${key} is not exist in this data.`);
 			});
-		});
+
 		return this.whenReady;
 	}
 	set (key, value) {
 		let filePath = this.filePath;
 
 		this.whenReady = this.whenReady
-		.then(function () {
-			return new Promise(function (resolve) {
-				fileSystem.set(filePath, key, value);
-
-				resolve(value);
-			});
-		});
+			.then(function () {
+				return readFile(filePath);
+			})
+			.then(JSON.parse)
+			.then(function (data) {
+				data[key] = value;
+				return data;
+			})
+			.then(JSON.stringify)
+			.then(function(data) {
+				writeFile(filePath,  data);
+				return data[key];
+			})
 		return this.whenReady;
 	}
 	remove (key) {
 		let filePath = this.filePath;
 
 		this.whenReady = this.whenReady
-		.then(function () {
-			return new Promise(function (resolve) {
-				fileSystem.remove(filePath, key);
-
-				resolve();
+			.then(function () {
+				return readFile(filePath);
+			})
+			.then(JSON.parse)
+			.then(function (data) {
+				if (key in data) {
+					delete data[key];
+				}
+				return data;
+			})
+			.then(JSON.stringify)
+			.then(function(data) {
+				writeFile(filePath, data)
+				return true;
 			});
-		});
+			
 		return this.whenReady;
-
 	}
 }
 
-// let storage = new Storage('filePass');
-// storage.set('key666', '543').then(function (number) {
-// 	console.log(number);
-// 	return;
-// }).catch(function (err) {
-// 	console.error(err);
-// });
+let storage = new Storage('data.json');
 
-// storage.get('key666').then(function (number) {
-// 	console.log(number);
-// 	return;
-// }).catch(function (err) {
-// 	console.error(err);
-// });
-
-// storage.remove('key666', '543').then(function (number) {
-// 	console.log(number);
-// 	return;
-// }).catch(function (err) {
-// 	console.error(err);
-// });
+storage.set('2221', '2');
+storage.get('2221');
+storage.remove('2221');

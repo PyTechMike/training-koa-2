@@ -10,40 +10,45 @@ export default new Koa()
 		console.error(err, ctx);
 	});
 
-function wait (ms, callback) {
-	let startTime = new Date();
+// function wait (ms, callback) {
+// 	let startTime = new Date();
 
-	setTimeout(function () {
-		let endTime = Number(new Date()) - Number(startTime);
+// 	setTimeout(function () {
+// 		let endTime = Number(new Date()) - Number(startTime);
 
-		callback(endTime);
-	}, ms);
-}
+// 		callback(endTime);
+// 	}, ms);
+// }
 
-function delay (ms) {
-	return new Promise(function (resolve) {
-		wait(ms, resolve);
-	});
-}
+// function delay (ms) {
+// 	return new Promise(function (resolve) {
+// 		wait(ms, resolve);
+// 	});
+// }
 
-delay(100).then(function (time) {
-	console.log(time);
-	return time;
-}).catch(function (err) {
-	console.error(err);
-});
+// delay(100).then(function (time) {
+// 	console.log(time);
+// 	return time;
+// }).catch(function (err) {
+// 	console.error(err);
+// });
 
 // wait(100, function (time) {
 // 	console.log(time);
 // });
+// let storage = new Storage('src/data.json');
 
 
-let storage = new Storage('data.json');
+// storage.set('test3', 12);
+// storage.set('test5', 12);
 
-storage.set('test2', 1222);
-storage.get('test2').then(function (val) {
-	console.log(val);
-	return;
-}).catch(function (err) {
-	console.error(err);
-});
+// storage.remove('test5');
+
+// storage.get('test5', 12);
+
+// storage.get('test2').then(function (val) {
+// 	console.log(val);
+// 	return;
+// }).catch(function (err) {
+// 	console.error(err);
+// });
