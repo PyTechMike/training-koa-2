@@ -1,10 +1,15 @@
+import path from 'path';
+
 import { readFile, writeFile } from '../services/fs.service';
 
-
 export default class Storage {
-	constructor (filePath) {
+	constructor (name) {
+		if (!name) {
+			throw new Error(`Storge requires an argument.`);
+		}
 		this.whenReady = Promise.resolve();
-		this.filePath = filePath || 0;
+		this.name = name;
+		this.filePath = path.join(process.cwd(), 'stores', `${name}.json`);
 	}
 	get (key) {
 		let filePath = this.filePath;
@@ -36,10 +41,11 @@ export default class Storage {
 				return data;
 			})
 			.then(JSON.stringify)
-			.then(function(data) {
-				writeFile(filePath,  data);
+			.then(function (data) {
+				return Promise.all([writeFile(filePath, data), data]);
+			}).then(function ([, data]) {
 				return data[key];
-			})
+			});
 		return this.whenReady;
 	}
 	remove (key) {
@@ -57,17 +63,21 @@ export default class Storage {
 				return data;
 			})
 			.then(JSON.stringify)
-			.then(function(data) {
-				writeFile(filePath, data)
+			.then(function (data) {
+				return Promise.all([writeFile(filePath, data), data]);
+			}).then(function () {
 				return true;
 			});
-			
+
 		return this.whenReady;
 	}
 }
 
-let storage = new Storage('data.json');
+let storage = new Storage('data');
 
-storage.set('2221', '2');
-storage.get('2221');
-storage.remove('2221');
+
+storage.set('33', '2');
+
+storage.get('33');
+
+storage.remove('33');

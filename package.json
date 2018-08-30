@@ -13,10 +13,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@atomspace/eslint": "2.1.1",
     "@neutrinojs/web": "8.3.0",
-    "neutrino": "8.2.3",
-    "neutrino-preset-koa": "1.0.1",
-    "@atomspace/eslint": "2.1.1"
+    "neutrino": "^8.2.3",
+    "neutrino-preset-koa": "1.0.1"
   },
   "dependencies": {
     "koa": "^2.5.1",
