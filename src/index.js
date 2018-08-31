@@ -1,43 +1,14 @@
-// import Koa from 'koa';
-// import router from './router';
-
 import Koa from 'koa';
 
+import router from './router';
 import Storage from './classes/storage';
 
 export default new Koa()
+	.use(router.routes())
+	.use(router.allowedMethods())
 	.on('error', function (err, ctx) {
 		console.error(err, ctx);
 	});
-
-// function wait (ms, callback) {
-// 	let startTime = new Date();
-
-// 	setTimeout(function () {
-// 		let endTime = Number(new Date()) - Number(startTime);
-
-// 		callback(endTime);
-// 	}, ms);
-// }
-
-// function delay (ms) {
-// 	return new Promise(function (resolve) {
-// 		wait(ms, resolve);
-// 	});
-// }
-
-// delay(100).then(function (time) {
-// 	console.log(time);
-// 	return time;
-// }).catch(function (err) {
-// 	console.error(err);
-// });
-
-// wait(100, function (time) {
-// 	console.log(time);
-// });
-// let storage = new Storage('src/data.json');
-
 
 // storage.set('test3', 12);
 // storage.set('test5', 12);
