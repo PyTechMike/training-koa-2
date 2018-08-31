@@ -11,10 +11,9 @@ export default router
 		console.log(params.number);
 	})
 	.post('/items', function ({ response }) {
-		// response.body = `Post all todo items`;
-		response.body = JSON.stringify(response.request.body);
+		response.body = `Post all todo items`;
 	})
-	.put('/item/:number', function ({ response, params }) {
+	.put('/items/:number', function ({ response, params }) {
 		response.body = `Put todo item number: ${params.number}`;
 		console.log(params.number);
 	})
