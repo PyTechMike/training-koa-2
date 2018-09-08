@@ -72,12 +72,3 @@ export default class Storage {
 		return this.whenReady;
 	}
 }
-
-let storage = new Storage('data');
-
-
-storage.set('33', '2');
-
-storage.get('33');
-
-storage.remove('33');

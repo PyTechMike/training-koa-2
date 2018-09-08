@@ -1,7 +1,8 @@
 import Koa from 'koa';
 
 import router from './router';
-import Storage from './classes/storage';
+
+// import Storage from './classes/storage';
 
 export default new Koa()
 	.use(router.routes())
@@ -9,17 +10,3 @@ export default new Koa()
 	.on('error', function (err, ctx) {
 		console.error(err, ctx);
 	});
-
-// storage.set('test3', 12);
-// storage.set('test5', 12);
-
-// storage.remove('test5');
-
-// storage.get('test5', 12);
-
-// storage.get('test2').then(function (val) {
-// 	console.log(val);
-// 	return;
-// }).catch(function (err) {
-// 	console.error(err);
-// });
