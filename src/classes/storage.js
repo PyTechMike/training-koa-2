@@ -20,10 +20,13 @@ export default class Storage {
 			})
 			.then(JSON.parse)
 			.then(function (data) {
-				if (key in data) {
-					return data[key];
+				if (arguments.length > 0) {
+					if (key in data) {
+						return data[key];
+					}
+					throw new Error(`${key} is not exist in this data.`);
 				}
-				throw new Error(`${key} is not exist in this data.`);
+				return data;
 			});
 
 		return this.whenReady;
@@ -71,4 +74,6 @@ export default class Storage {
 
 		return this.whenReady;
 	}
+
+	// add
 }

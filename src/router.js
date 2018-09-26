@@ -19,18 +19,18 @@ export default router
 			return response.body = todo;
 		});
 	})
-	.post('/todos', function ({ response }) {
-		return todos.postTodos().then(function (todo) {
+	.post('/todos', function ({ response, request }) {
+		return todos.postTodo(request.body).then(function (todo) {
 			return response.body = todo;
 		});
 	})
-	.put('/todos/:id/:content', function ({ response, params }) {
-		return todos.putTodo(params.id, params.content).then(function (todo) {
+	.put('/todos', function ({ response, request }) {
+		return todos.putTodo(request.body).then(function (todo) {
 			return response.body = todo;
 		});
 	})
-	.del('/todos/:id', function ({ response, params }) {
-		return todos.delTodo(params.id).then(function (todo) {
+	.del('/todos', function ({ response, request }) {
+		return todos.delTodo(request.body).then(function (todo) {
 			return response.body = todo;
 		});
 	});

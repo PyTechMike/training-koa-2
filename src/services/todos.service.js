@@ -9,8 +9,8 @@ export default {
 	getTodoById (id) {
 		return Promise.resolve(storage.get(id));
 	},
-	postTodos () {
-		return Promise.resolve(storage.post('test1', 'lol'));
+	postTodo (todo) {
+		return Promise.resolve(storage.set(1, todo)); // Object.assign
 	},
 	putTodo (id, content) {
 		return Promise.resolve(storage.set(id, content));
