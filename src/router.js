@@ -29,8 +29,8 @@ export default router
 			return response.body = todo;
 		});
 	})
-	.del('/todos', function ({ response, request }) {
-		return todos.delTodo(request.body).then(function (todo) {
+	.del('/todos/:id', function ({ response, params }) {
+		return todos.delTodo(params.id).then(function (todo) {
 			return response.body = todo;
 		});
 	});
