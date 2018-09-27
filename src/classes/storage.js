@@ -3,21 +3,6 @@ import path from 'path';
 
 import { readFile, writeFile } from '../services/fs.service';
 
-function getDataLength (filePath) {
-	// let	whenReady = Promise.resolve()
-	// 		.then(function () {
-	// 			return readFile(filePath);
-	// 		})
-	// 		.then(JSON.parse)
-	// 		.then(function (data) {
-	// 			return Object.keys(data).length;
-	// 		});
-
-	// return whenReady; readFileSync
-	return Object.keys(JSON.parse(readFile(filePath))).length;
-}
-
-
 export default class Storage {
 	constructor (name) {
 		if (!name) {
@@ -26,10 +11,9 @@ export default class Storage {
 		this.whenReady = Promise.resolve();
 		this.name = name;
 		this.filePath = path.join(process.cwd(), 'stores', `${name}.json`);
-
-		// this.id = getDataLength(this.filePath);
 	}
-	get (key) {
+
+	get (todoId) {
 		let filePath = this.filePath;
 
 		this.whenReady = this.whenReady
@@ -39,10 +23,11 @@ export default class Storage {
 			.then(JSON.parse)
 			.then(function (data) {
 				if (arguments.length > 0) {
-					if (key in data) {
-						return data[key];
+					if (todoId in data) {
+						return data[todoId];
 					}
-					throw new Error(`${key} is not exist in this data.`);
+
+					// throw new Error(`${todoId} is not exist in this data.`);
 				}
 				return data;
 			});
@@ -58,57 +43,52 @@ export default class Storage {
 				return readFile(filePath);
 			})
 			.then(function (data) {
-				return Promise.all([JSON.parse(data), Object.keys(JSON.parse(data)).length]);
+				return JSON.parse(data);
 			})
-			.then(function ([data, id]) {
-				let nowId = id;
-
-				if (id > -1) {
-					while (nowId) {
-						// for (let todo in data) {
-						// 	allData.push(data[todo]);
-						// }
-
-						console.log(nowId);
-						if (data[nowId]) {
-							allData.push(data[nowId]);
-						}
-						nowId -= 1;
-					}
+			.then(function (data) {
+				for (let todoId in data) {
+					allData.push(data[todoId]);
 				}
 				return allData;
-
-				// }
-				// throw new Error(`Error in get all data.`);
 			});
 
 		return this.whenReady;
 	}
 	set (value) {
 		let filePath = this.filePath;
-		let nowId;
+		let newId = 0;
 
 		this.whenReady = this.whenReady
 			.then(function () {
 				return readFile(filePath);
 			})
 			.then(function (data) {
-				return Promise.all([JSON.parse(data), Object.keys(JSON.parse(data)).length]);
+				return JSON.parse(data);
 			})
-			.then(function ([data, id]) {
-				nowId = id;
-				data[nowId + 1] = value;
+			.then(function (data) {
+
+				for (let todoId in data) {
+
+					if (todoId !== undefined) {
+						if (todoId > newId) {
+							newId = Number(todoId);
+						}
+						newId += 1;
+					}
+				}
+
+				data[newId] = value;
 				return data;
 			})
 			.then(JSON.stringify)
 			.then(function (data) {
 				return Promise.all([writeFile(filePath, data), data]);
 			}).then(function ([, data]) {
-				return data[nowId + 1];
+				return JSON.parse(data)[newId];
 			});
 		return this.whenReady;
 	}
-	remove (key) {
+	remove (todoId) {
 		let filePath = this.filePath;
 
 		this.whenReady = this.whenReady
@@ -117,8 +97,8 @@ export default class Storage {
 			})
 			.then(JSON.parse)
 			.then(function (data) {
-				if (key in data) {
-					delete data[key];
+				if (todoId in data) {
+					delete data[todoId];
 				}
 				return data;
 			})
