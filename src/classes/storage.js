@@ -73,9 +73,10 @@ export default class Storage {
 						if (todoId > newId) {
 							newId = Number(todoId);
 						}
-						newId += 1;
 					}
 				}
+
+				newId += 1;
 
 				data[newId] = value;
 				return data;
