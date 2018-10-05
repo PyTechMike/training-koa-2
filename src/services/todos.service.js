@@ -10,10 +10,10 @@ export default {
 		return Promise.resolve(storage.get(id));
 	},
 	postTodo (todo) {
-		return Promise.resolve(storage.set(todo)); // Object.assign
+		return Promise.resolve(storage.add(todo));
 	},
-	putTodo (todo) {
-		return Promise.resolve(storage.set(todo));
+	putTodo (todo, id) {
+		return Promise.resolve(storage.update(todo, id));
 	},
 	delTodo (id) {
 		return Promise.resolve(storage.remove(id));

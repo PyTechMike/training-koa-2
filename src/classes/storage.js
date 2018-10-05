@@ -54,7 +54,7 @@ export default class Storage {
 
 		return this.whenReady;
 	}
-	set (value) {
+	add (value) {
 		let filePath = this.filePath;
 		let newId = 0;
 
@@ -66,18 +66,19 @@ export default class Storage {
 				return JSON.parse(data);
 			})
 			.then(function (data) {
-
 				for (let todoId in data) {
-
 					if (todoId !== undefined) {
 						if (todoId > newId) {
 							newId = Number(todoId);
 						}
 					}
 				}
-
-				newId += 1;
-
+				if (Object.keys(data).length === 0) {
+					newId = 0;
+				}
+				else {
+					newId += 1;
+				}
 				data[newId] = value;
 				return data;
 			})
@@ -86,6 +87,33 @@ export default class Storage {
 				return Promise.all([writeFile(filePath, data), data]);
 			}).then(function ([, data]) {
 				return JSON.parse(data)[newId];
+			});
+		return this.whenReady;
+	}
+	update (value, todoId) {
+		let filePath = this.filePath;
+
+		this.whenReady = this.whenReady
+			.then(function () {
+				return readFile(filePath);
+			})
+			.then(function (data) {
+				return JSON.parse(data);
+			})
+			.then(function (data) {
+				if (todoId in data) {
+					Object.assign(data[todoId], value);
+				}
+				return data;
+			})
+			.then(JSON.stringify)
+			.then(function (data) {
+				return Promise.all([writeFile(filePath, data), data]);
+			}).then(function ([, data]) {
+				if (data[todoId]) {
+					return JSON.parse(data)[todoId];
+				}
+				return false;
 			});
 		return this.whenReady;
 	}

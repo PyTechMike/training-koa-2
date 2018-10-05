@@ -24,8 +24,8 @@ export default router
 			return response.body = todo;
 		});
 	})
-	.put('/todos', function ({ response, request }) {
-		return todos.putTodo(request.body).then(function (todo) {
+	.put('/todos/:id', function ({ response, request, params }) {
+		return todos.putTodo(request.body, params.id).then(function (todo) {
 			return response.body = todo;
 		});
 	})
