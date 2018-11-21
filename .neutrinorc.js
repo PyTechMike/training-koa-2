@@ -5,6 +5,7 @@ module.exports = {
 			  envs: ['node'],
 		  }
 	  }],
-	  'neutrino-preset-koa'
+	  'neutrino-preset-koa',
+	  '@neutrinojs/jest'
 	]
 };

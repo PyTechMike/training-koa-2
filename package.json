@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "neutrino test",
     "start": "neutrino start --debug",
     "build": "neutrino build",
     "lint": "neutrino lint"
@@ -13,7 +13,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@atomspace/eslint": "2.1.1",
+    "@neutrinojs/jest": "8.3.0",
+    "@atomspace/eslint": "2.2.0",
     "@neutrinojs/web": "8.3.0",
     "neutrino": "^8.2.3",
     "neutrino-preset-koa": "1.0.1"
