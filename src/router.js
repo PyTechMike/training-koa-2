@@ -4,21 +4,12 @@ import todos from './services/todos.service';
 
 let router = new Router();
 
+// manageTodo
 
 export default router
-	.get('/', function ({ response }) {
-		response.body = 'Welcome to Training Koa 2!';
-	})
-	.get('/todos', function ({ response }) {
-		return todos.getAllTodos().then(function (allTodos) {
-			return response.body = allTodos;
-		});
-	})
-	.get('/todos/:id', function ({ response, params }) {
-		return todos.getTodoById(params.id).then(function (todo) {
-			return response.body = todo;
-		});
-	})
+	.get('/', respondBasic)
+	.get('/todos', respondAllTodos)
+	.get('/todos/:id', respondCurrentTodo)
 	.post('/todos', function ({ response, request }) {
 		return todos.postTodo(request.body).then(function (todo) {
 			return response.body = todo;
