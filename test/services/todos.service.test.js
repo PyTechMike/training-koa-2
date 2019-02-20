@@ -1,7 +1,7 @@
 import todos from '../../src/services/todos.service';
 import Storage from '../../src/classes/storage';
 
-descride('Todos service can', function () {
+xdescribe('Todos service can', function () {
 	let result, id, todo;
 
 	beforeEach(function () {

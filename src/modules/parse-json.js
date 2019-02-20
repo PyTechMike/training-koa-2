@@ -1,3 +1,1 @@
-export default function parseJSON (data) {
-	return JSON.parse(data);
-}
+export default JSON.parse;
